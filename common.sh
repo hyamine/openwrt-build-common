@@ -64,7 +64,7 @@ function parse_settings() {
 	fi
 	
 	if [[ ${PACKAGES_REPO} =~ (default|DEFAULT|Default) ]] || [[ -z ${PACKAGES_REPO} ]]; then
-		PACKAGES_REPO="roacn/openwrt-packages"
+		PACKAGES_REPO="hyamine/openwrt-packages"
 	fi
 	
 	local package_repo_owner=`echo "${PACKAGES_REPO}" | awk -F/ '{print $1}'` 2>/dev/null
@@ -230,7 +230,7 @@ function git_clone_source() {
 	cp -rf $(find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './') ${HOME_PATH}/
 	
 	# 下载common仓库
-	sudo rm -rf ${COMMON_PATH} && git clone -b main --depth 1 https://github.com/roacn/common ${COMMON_PATH}
+	sudo rm -rf ${COMMON_PATH} && git clone -b main --depth 1 https://github.com/hyamine/openwrt-build-common ${COMMON_PATH}
 	chmod -Rf +x ${BUILD_PATH}
 	
 }
@@ -401,9 +401,9 @@ function diy_public() {
 	# openwrt.sh
 	#[[ ! -d "${FILES_PATH}/usr/bin" ]] && mkdir -p ${FILES_PATH}/usr/bin
 	#if [[ "${FIRMWARE_TYPE}" == "lxc" ]]; then
-	#	wget https://raw.githubusercontent.com/roacn/pve/main/openwrt.lxc.sh -O /usr/bin/openwrt ${FILES_PATH}/usr/bin/openwrt && sudo chmod +x ${FILES_PATH}/usr/bin/openwrt
+	#	wget https://raw.githubusercontent.com/hyamine/pve/main/openwrt.lxc.sh -O /usr/bin/openwrt ${FILES_PATH}/usr/bin/openwrt && sudo chmod +x ${FILES_PATH}/usr/bin/openwrt
 	#else
-	#	wget https://raw.githubusercontent.com/roacn/luci-app-autoupdate/main/root/usr/bin/autoupdate -O  ${FILES_PATH}/usr/bin/openwrt && sudo chmod +x ${FILES_PATH}/usr/bin/openwrt
+	#	wget https://raw.githubusercontent.com/hyamine/luci-app-autoupdate/main/root/usr/bin/autoupdate -O  ${FILES_PATH}/usr/bin/openwrt && sudo chmod +x ${FILES_PATH}/usr/bin/openwrt
 	#fi
 	
 	__yellow_color "开始设置自动更新插件..."
@@ -418,7 +418,7 @@ function diy_public() {
 	else
 		find ${HOME_PATH}/feeds -type d -name "luci-app-autoupdate" | xargs -i sudo rm -rf {}
 		find ${HOME_PATH}/package -type d -name "luci-app-autoupdate" | xargs -i sudo rm -rf {}
-		git clone https://github.com/roacn/luci-app-autoupdate ${HOME_PATH}/package/luci-app-autoupdate 2>/dev/null
+		git clone https://github.com/hyamine/luci-app-autoupdate ${HOME_PATH}/package/luci-app-autoupdate 2>/dev/null
 		if [[ `grep -c "luci-app-autoupdate" ${HOME_PATH}/include/target.mk` -eq '0' ]]; then
 			sed -i 's?DEFAULT_PACKAGES:=?DEFAULT_PACKAGES:=luci-app-autoupdate luci-app-ttyd ?g' ${HOME_PATH}/include/target.mk
 		fi
@@ -1119,7 +1119,7 @@ function compile_info() {
 		__red_color "固件更新"
 		echo "--------------------------------------------------------------------------------"
 		__white_color "1、PVE运行："
-		__green_color "wget https://mirror.ghproxy.com/https://raw.githubusercontent.com/roacn/pve/main/openwrt.lxc.sh -O /usr/bin/openwrt && chmod +x /usr/bin/openwrt"
+		__green_color "wget https://cdn.jsdelivr.net/gh/hyamine/pve@main/openwrt.lxc.sh -O /usr/bin/openwrt && chmod +x /usr/bin/openwrt"
 		__white_color "2、PVE运行："
 		__green_color "openwrt"
 		echo
