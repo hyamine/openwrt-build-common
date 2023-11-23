@@ -325,6 +325,7 @@ function update_feeds() {
 	
 	# 更新插件源
 	__yellow_color "开始更新插件源..."
+	ls -al && ls -al ./scripts/
 	./scripts/feeds clean
 	./scripts/feeds update -a > /dev/null 2>&1
 	sudo rm -rf ${FEEDS_PATH}/${packages}/{LICENSE,*README*,*readme*,.git,.github,.gitignore} > /dev/null 2>&1
